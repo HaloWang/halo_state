@@ -114,7 +114,7 @@ class RawApp {
     viewInsetsLeft.u(viewInsets.left);
     viewInsetsRight.u(viewInsets.right);
 
-    final brightness = MediaQuery.platformBrightnessOf(context);
+    final brightness = Theme.of(context).brightness;
     light.u(brightness == Brightness.light);
 
     final orientation = MediaQuery.orientationOf(context);
