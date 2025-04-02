@@ -30,6 +30,18 @@ class RawApp {
   final viewPaddingRight = qs(0.0);
   final viewPaddingTop = qs(0.0);
 
+  /// Quantized with step 0.33 (0, 0.33, 0.66, 0.99, ...)
+  final quantized33PaddingBottom = qs(0.0);
+
+  /// Quantized with step 0.5 (0, 0.5, 1.0, 1.5, ...)
+  final quantizedHalfPaddingBottom = qs(0.0);
+
+  /// Quantized with step 0.25 (0, 0.25, 0.5, 0.75, ...)
+  final quantizedQuarterPaddingBottom = qs(0.0);
+
+  /// Quantized with step 1.0 (0, 1, 2, 3, ...)
+  final quantizedIntPaddingBottom = qs(0.0);
+
   late final cacheDir = qsn<Directory>();
   late final documentsDir = qsn<Directory>();
   late final downloadsDir = qsn<Directory>();
@@ -96,6 +108,11 @@ class RawApp {
     paddingBottom.u(padding.bottom);
     paddingLeft.u(padding.left);
     paddingRight.u(padding.right);
+
+    quantized33PaddingBottom.u((padding.bottom / 0.33).round() * 0.33);
+    quantizedHalfPaddingBottom.u((padding.bottom / 0.5).round() * 0.5);
+    quantizedQuarterPaddingBottom.u((padding.bottom / 0.25).round() * 0.25);
+    quantizedIntPaddingBottom.u(padding.bottom.round().toDouble());
 
     final size = MediaQuery.sizeOf(context);
     screenWidth.u(size.width);
