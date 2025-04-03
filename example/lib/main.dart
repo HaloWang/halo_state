@@ -21,11 +21,16 @@ class MainApp extends StatelessWidget {
 
 class _Scaffold extends ConsumerWidget {
   static final v = qs(0);
+  static final _focusNode = FocusNode();
 
   const _Scaffold();
 
   void _onPressed() {
     v.ua(1);
+  }
+
+  void _onTap() {
+    _focusNode.unfocus();
   }
 
   @override
@@ -36,8 +41,22 @@ class _Scaffold extends ConsumerWidget {
         onPressed: _onPressed,
         child: Icon(Icons.add),
       ),
-      body: Center(
-        child: Text('Hello World! $v'),
+      body: GestureDetector(
+        onTap: _onTap,
+        child: Container(
+          color: Colors.transparent,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Text('Hello World! $v'),
+              ),
+              TextField(
+                focusNode: _focusNode,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

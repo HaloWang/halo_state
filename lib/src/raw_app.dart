@@ -103,38 +103,59 @@ class RawApp {
   }
 
   void contextGot(BuildContext context) {
-    final padding = MediaQuery.paddingOf(context);
-    paddingTop.u(padding.top);
-    paddingBottom.u(padding.bottom);
-    paddingLeft.u(padding.left);
-    paddingRight.u(padding.right);
+    final window = View.of(context);
+    final dpi = window.devicePixelRatio;
+    final size = window.physicalSize / dpi;
+    final rawViewPadding = window.viewPadding;
+    final rawViewInsets = window.viewInsets;
+    final rawPadding = window.padding;
+    final height = window.physicalSize.height / dpi;
+    final width = window.physicalSize.width / dpi;
+    final isPortrait = height > width;
 
-    quantized33PaddingBottom.u((padding.bottom / 0.33).round() * 0.33);
-    quantizedHalfPaddingBottom.u((padding.bottom / 0.5).round() * 0.5);
-    quantizedQuarterPaddingBottom.u((padding.bottom / 0.25).round() * 0.25);
-    quantizedIntPaddingBottom.u(padding.bottom.round().toDouble());
+    final paddingTop = rawPadding.top / dpi;
+    final paddingBottom = rawPadding.bottom / dpi;
+    final paddingLeft = rawPadding.left / dpi;
+    final paddingRight = rawPadding.right / dpi;
 
-    final size = MediaQuery.sizeOf(context);
+    this.paddingTop.u(paddingTop);
+    this.paddingBottom.u(paddingBottom);
+    this.paddingLeft.u(paddingLeft);
+    this.paddingRight.u(paddingRight);
+
+    quantized33PaddingBottom.u((paddingBottom / 0.33).round() * 0.33);
+    quantizedHalfPaddingBottom.u((paddingBottom / 0.5).round() * 0.5);
+    quantizedQuarterPaddingBottom.u((paddingBottom / 0.25).round() * 0.25);
+    quantizedIntPaddingBottom.u(paddingBottom.round().toDouble());
+
     screenWidth.u(size.width);
     screenHeight.u(size.height);
 
-    final viewPadding = MediaQuery.viewPaddingOf(context);
-    viewPaddingTop.u(viewPadding.top);
-    viewPaddingBottom.u(viewPadding.bottom);
-    viewPaddingLeft.u(viewPadding.left);
-    viewPaddingRight.u(viewPadding.right);
+    final viewPaddingTop = rawViewPadding.top / dpi;
+    final viewPaddingBottom = rawViewPadding.bottom / dpi;
+    final viewPaddingLeft = rawViewPadding.left / dpi;
+    final viewPaddingRight = rawViewPadding.right / dpi;
 
-    final viewInsets = MediaQuery.viewInsetsOf(context);
-    viewInsetBottomIsZero.u(viewInsets.bottom == 0);
-    viewInsetsTop.u(viewInsets.top);
-    viewInsetsBottom.u(viewInsets.bottom);
-    viewInsetsLeft.u(viewInsets.left);
-    viewInsetsRight.u(viewInsets.right);
+    this.viewPaddingTop.u(viewPaddingTop);
+    this.viewPaddingBottom.u(viewPaddingBottom);
+    this.viewPaddingLeft.u(viewPaddingLeft);
+    this.viewPaddingRight.u(viewPaddingRight);
+
+    final viewInsetsTop = rawViewInsets.top / dpi;
+    final viewInsetsBottom = rawViewInsets.bottom / dpi;
+    final viewInsetsLeft = rawViewInsets.left / dpi;
+    final viewInsetsRight = rawViewInsets.right / dpi;
+
+    viewInsetBottomIsZero.u(viewInsetsBottom == 0);
+
+    this.viewInsetsTop.u(viewInsetsTop);
+    this.viewInsetsBottom.u(viewInsetsBottom);
+    this.viewInsetsLeft.u(viewInsetsLeft);
+    this.viewInsetsRight.u(viewInsetsRight);
 
     final brightness = Theme.of(context).brightness;
     light.u(brightness == Brightness.light);
 
-    final orientation = MediaQuery.orientationOf(context);
-    isPortrait.u(orientation == Orientation.portrait);
+    this.isPortrait.u(isPortrait);
   }
 }

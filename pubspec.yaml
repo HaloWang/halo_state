@@ -1,6 +1,6 @@
 name: halo_state
 description: Personal flutter state management package
-version: 0.0.3
+version: 0.0.4
 homepage:
 
 environment:
@@ -14,7 +14,7 @@ dependencies:
   collection: # https://pub.dev/packages/collection
   flutter_riverpod: # https://pub.dev/packages/flutter_riverpod
   halo: # https://pub.dev/packages/halo
-  package_info_plus: # https://pub.dev/packages/package_info
+  package_info_plus: # https://pub.dev/packages/package_info_plus
   path_provider: # https://pub.dev/packages/path_provider
   riverpod: # https://pub.dev/packages/riverpod
 
