@@ -20,6 +20,11 @@ extension HaloProviderListenable<T> on ProviderListenable<T> {
   /// Read the value
   T get v => _rc.read(this);
 
+  /// Read the value
+  ///
+  /// Using "Q" because is the letter with the least frequency in English and coding.
+  T get q => _rc.read(this);
+
   /// Listen only next value
   void l(void Function(T next) listener, {bool fireImmediately = false}) {
     _rc.listen(this, (_, T next) => listener(next), fireImmediately: fireImmediately);
@@ -37,6 +42,18 @@ extension HaloProviderListenable<T> on ProviderListenable<T> {
 }
 
 extension HaloStateProvider<T> on StateProvider<T> {
+  /// Read the value
+  ///
+  /// Using "Q" because is the letter with the least frequency in English and coding.
+  T get q => _rc.read(this);
+
+  /// Set the value.
+  ///
+  /// Using "Q" because is the letter with the least frequency in English and coding.
+  set q(T value) {
+    _rc.read(notifier).state = value;
+  }
+
   /// Set the value
   void u(T value) {
     _rc.read(notifier).state = value;

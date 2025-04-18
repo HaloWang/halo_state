@@ -102,13 +102,15 @@ class RawApp {
     contextGot(context);
   }
 
+  // TODO: Check latest values
   void contextGot(BuildContext context) {
     final window = View.of(context);
     final dpi = window.devicePixelRatio;
-    final size = window.physicalSize / dpi;
     final rawViewPadding = window.viewPadding;
     final rawViewInsets = window.viewInsets;
     final rawPadding = window.padding;
+
+    final size = window.physicalSize / dpi;
     final height = window.physicalSize.height / dpi;
     final width = window.physicalSize.width / dpi;
     final isPortrait = height > width;

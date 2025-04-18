@@ -1,5 +1,5 @@
 /// Person flutter dev kit.
-library halo_state;
+library;
 
 export 'src/state.dart';
 export 'src/list.dart';
