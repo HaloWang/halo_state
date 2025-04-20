@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:halo_state/halo_state.dart';
 
-void main() {
+void main() async {
   runApp(const MainApp());
 }
 
@@ -36,6 +36,7 @@ class _Scaffold extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final v = ref.watch(_Scaffold.v);
+    final textScaler = MediaQuery.textScalerOf(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: _onPressed,
@@ -48,12 +49,9 @@ class _Scaffold extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(
-                child: Text('Hello World! $v'),
-              ),
-              TextField(
-                focusNode: _focusNode,
-              ),
+              Center(child: Text('Hello World! $v')),
+              TextField(focusNode: _focusNode),
+              Text(textScaler.toString()),
             ],
           ),
         ),

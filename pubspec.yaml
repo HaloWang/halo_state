@@ -13,10 +13,10 @@ dependencies:
 
   collection: # https://pub.dev/packages/collection
   flutter_riverpod: # https://pub.dev/packages/flutter_riverpod
-  halo: # https://pub.dev/packages/halo
   package_info_plus: # https://pub.dev/packages/package_info_plus
   path_provider: # https://pub.dev/packages/path_provider
   riverpod: # https://pub.dev/packages/riverpod
+  shared_preferences: # https://pub.dev/packages/shared_preferences
 
 dev_dependencies:
   flutter_test:

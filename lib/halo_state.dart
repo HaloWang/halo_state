@@ -8,3 +8,4 @@ export 'src/set.dart';
 export 'src/number.dart';
 export 'src/string.dart';
 export 'src/raw_app.dart';
+export 'src/state_wrapper.dart';
