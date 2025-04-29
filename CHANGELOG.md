@@ -1,3 +1,7 @@
+## 0.0.6
+
+- Enhance `StateProvider.family` calling.
+
 ## 0.0.5
 
 - Refactor library declaration.

@@ -5,20 +5,33 @@ import 'package:halo_state/src/rc.dart';
 /// Generate an [StateProvider] with given initialValue and T
 StateProvider<T> qs<T>(T v) => StateProvider<T>((_) => v);
 
-/// Create an [StateProviderFamily] with given [State] initialValue
-StateProviderFamily<State, Arg> qsf<State, Arg>(State v) => StateProvider.family<State, Arg>((_, __) => v);
-
-/// Create an [StateProviderFamily] with given [State] initialValue
-const qsff = StateProvider.family;
+/// Generate a [Provider] with given createFn and T
+Provider<T> qp<T>(T Function(Ref<T> ref) createFn) => Provider<T>(createFn);
 
 /// Generate an [StateProvider] with null and T?
 StateProvider<T?> qsn<T>([T? v]) => qs<T?>(v);
 
-/// Generate a [Provider] with given createFn and T
-Provider<T> qp<T>(T Function(Ref<T> ref) createFn) => Provider<T>(createFn);
+/// Create an [StateProviderFamily] with given [State] initialValue
+///
+/// Example:
+/// ```dart
+/// final provider = qsf<[Key]>('');
+/// ```
+StateProviderFamily<State, Arg> qsf<Arg>(State v) => StateProvider.family<State, Arg>((_, __) => v);
+
+/// Create an [StateProviderFamily] with given [State] initialValue
+///
+/// Example:
+/// ```dart
+/// final provider = qsff<[Key]>((_, __) => '');
+/// ```
+// const qsff = StateProvider.family;
+/// Generate an [StateProvider] with null and T?
+StateProviderFamily<State, Arg> qsff<Arg>(State Function(Ref<State<StatefulWidget>> ref, Arg arg) createFn) => StateProvider.family<State, Arg>(createFn);
 
 extension HaloProviderListenable<T> on ProviderListenable<T> {
   /// Read the value
+  @Deprecated('Use q instead')
   T get v => rc.read(this);
 
   /// Read the value
@@ -66,4 +79,3 @@ extension HaloStateProviderNull<T> on StateProvider<T?> {
     u(null);
   }
 }
-
