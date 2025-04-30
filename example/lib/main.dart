@@ -41,9 +41,6 @@ class _Scaffold extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final v = ref.watch(_Scaffold.v);
     final textScaler = MediaQuery.textScalerOf(context);
-
-    ref.watch;
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: _onPressed,
