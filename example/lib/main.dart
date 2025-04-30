@@ -19,8 +19,12 @@ class MainApp extends StatelessWidget {
   }
 }
 
+final v2 = qsf<String, int?>(null);
+final v3 = qsff((_, String key) => 1);
+
 class _Scaffold extends ConsumerWidget {
   static final v = qs(0);
+
   static final _focusNode = FocusNode();
 
   const _Scaffold();
@@ -37,6 +41,9 @@ class _Scaffold extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final v = ref.watch(_Scaffold.v);
     final textScaler = MediaQuery.textScalerOf(context);
+
+    ref.watch;
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: _onPressed,
