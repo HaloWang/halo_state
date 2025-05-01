@@ -155,7 +155,7 @@ class RawApp {
     this.viewInsetsLeft.u(viewInsetsLeft);
     this.viewInsetsRight.u(viewInsetsRight);
 
-    final brightness = Theme.of(context).brightness;
+    final brightness = View.of(context).platformDispatcher.platformBrightness;
     light.u(brightness == Brightness.light);
 
     this.isPortrait.u(isPortrait);
