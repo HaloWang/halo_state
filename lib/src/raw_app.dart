@@ -6,7 +6,7 @@ import 'package:halo_state/halo_state.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 
-class RawApp {
+abstract class RawApp with WidgetsBindingObserver {
   final version = qs("");
   final buildNumber = qs("");
 
@@ -15,6 +15,7 @@ class RawApp {
   final screenWidth = qs(0.0);
 
   final light = qs(true);
+  late final dark = qp((ref) => !ref.watch(light));
 
   final paddingBottom = qs(0.0);
   final paddingLeft = qs(0.0);
@@ -49,47 +50,63 @@ class RawApp {
   late final supportDir = qsn<Directory>();
   late final tempDir = qsn<Directory>();
 
+  /// 如果当前操作系统为深色模式, 该值为 0xFF000000, 否则为 0xFFFFFFFF
+  final qw = qs(const Color(0xFFFFFFFF));
+
+  /// 如果当前操作系统为浅色模式, 该值为 0xFF000000, 否则为 0xFFFFFFFF
+  final qb = qs(const Color(0xFF000000));
+
   Future<void> init() async {
+    WidgetsBinding.instance.addObserver(this);
+
     final packageInfo = await PackageInfo.fromPlatform();
     final version = packageInfo.version;
     final buildNumber = packageInfo.buildNumber;
-    this.version.u(version);
-    this.buildNumber.u(buildNumber);
+    this.version.q = version;
+    this.buildNumber.q = buildNumber;
+
+    if (kDebugMode) {
+      Future.delayed(const Duration(seconds: 1), () {
+        final context = this.context;
+        if (context == null) return;
+        if (context.mounted) FocusScope.of(context).unfocus();
+      });
+    }
 
     try {
-      cacheDir.u(await getApplicationCacheDirectory());
+      cacheDir.q = await getApplicationCacheDirectory();
     } catch (e) {
       if (kDebugMode) print("RawApp.init");
       if (kDebugMode) print("🚧 $e");
     }
     try {
-      documentsDir.u(await getApplicationDocumentsDirectory());
+      documentsDir.q = await getApplicationDocumentsDirectory();
     } catch (e) {
       if (kDebugMode) print("RawApp.init");
       if (kDebugMode) print("🚧 $e");
     }
     try {
-      downloadsDir.u(await getDownloadsDirectory());
+      downloadsDir.q = await getDownloadsDirectory();
     } catch (e) {
       if (kDebugMode) print("RawApp.init");
       if (kDebugMode) print("🚧 $e");
     }
     if (Platform.isIOS || Platform.isMacOS) {
       try {
-        libraryDir.u(await getLibraryDirectory());
+        libraryDir.q = await getLibraryDirectory();
       } catch (e) {
         if (kDebugMode) print("RawApp.init");
         if (kDebugMode) print("🚧 $e");
       }
     }
     try {
-      supportDir.u(await getApplicationSupportDirectory());
+      supportDir.q = await getApplicationSupportDirectory();
     } catch (e) {
       if (kDebugMode) print("RawApp.init");
       if (kDebugMode) print("🚧 $e");
     }
     try {
-      tempDir.u(await getTemporaryDirectory());
+      tempDir.q = await getTemporaryDirectory();
     } catch (e) {
       if (kDebugMode) print("RawApp.init");
       if (kDebugMode) print("🚧 $e");
@@ -99,11 +116,13 @@ class RawApp {
   Future<void> firstContextGot(BuildContext context) async {
     await Future.delayed(Duration.zero);
     // ignore: use_build_context_synchronously
-    contextGot(context);
+    _contextGot(context);
   }
 
-  // TODO: Check latest values
-  void contextGot(BuildContext context) {
+  void _contextGot(BuildContext? context) {
+    if (context == null) return;
+    if (!context.mounted) return;
+
     final window = View.of(context);
     final dpi = window.devicePixelRatio;
     final rawViewPadding = window.viewPadding;
@@ -120,44 +139,62 @@ class RawApp {
     final paddingLeft = rawPadding.left / dpi;
     final paddingRight = rawPadding.right / dpi;
 
-    this.paddingTop.u(paddingTop);
-    this.paddingBottom.u(paddingBottom);
-    this.paddingLeft.u(paddingLeft);
-    this.paddingRight.u(paddingRight);
+    this.paddingTop.q = paddingTop;
+    this.paddingBottom.q = paddingBottom;
+    this.paddingLeft.q = paddingLeft;
+    this.paddingRight.q = paddingRight;
 
-    quantized33PaddingBottom.u((paddingBottom / 0.33).round() * 0.33);
-    quantizedHalfPaddingBottom.u((paddingBottom / 0.5).round() * 0.5);
-    quantizedQuarterPaddingBottom.u((paddingBottom / 0.25).round() * 0.25);
-    quantizedIntPaddingBottom.u(paddingBottom.round().toDouble());
+    quantized33PaddingBottom.q = (paddingBottom / 0.33).round() * 0.33;
+    quantizedHalfPaddingBottom.q = (paddingBottom / 0.5).round() * 0.5;
+    quantizedQuarterPaddingBottom.q = (paddingBottom / 0.25).round() * 0.25;
+    quantizedIntPaddingBottom.q = paddingBottom.round().toDouble();
 
-    screenWidth.u(size.width);
-    screenHeight.u(size.height);
+    screenWidth.q = size.width;
+    screenHeight.q = size.height;
 
     final viewPaddingTop = rawViewPadding.top / dpi;
     final viewPaddingBottom = rawViewPadding.bottom / dpi;
     final viewPaddingLeft = rawViewPadding.left / dpi;
     final viewPaddingRight = rawViewPadding.right / dpi;
 
-    this.viewPaddingTop.u(viewPaddingTop);
-    this.viewPaddingBottom.u(viewPaddingBottom);
-    this.viewPaddingLeft.u(viewPaddingLeft);
-    this.viewPaddingRight.u(viewPaddingRight);
+    this.viewPaddingTop.q = viewPaddingTop;
+    this.viewPaddingBottom.q = viewPaddingBottom;
+    this.viewPaddingLeft.q = viewPaddingLeft;
+    this.viewPaddingRight.q = viewPaddingRight;
 
     final viewInsetsTop = rawViewInsets.top / dpi;
     final viewInsetsBottom = rawViewInsets.bottom / dpi;
     final viewInsetsLeft = rawViewInsets.left / dpi;
     final viewInsetsRight = rawViewInsets.right / dpi;
 
-    viewInsetBottomIsZero.u(viewInsetsBottom == 0);
+    viewInsetBottomIsZero.q = viewInsetsBottom == 0;
 
-    this.viewInsetsTop.u(viewInsetsTop);
-    this.viewInsetsBottom.u(viewInsetsBottom);
-    this.viewInsetsLeft.u(viewInsetsLeft);
-    this.viewInsetsRight.u(viewInsetsRight);
+    this.viewInsetsTop.q = viewInsetsTop;
+    this.viewInsetsBottom.q = viewInsetsBottom;
+    this.viewInsetsLeft.q = viewInsetsLeft;
+    this.viewInsetsRight.q = viewInsetsRight;
 
     final brightness = View.of(context).platformDispatcher.platformBrightness;
-    light.u(brightness == Brightness.light);
+    final isLight = brightness == Brightness.light;
+    light.q = isLight;
 
-    this.isPortrait.u(isPortrait);
+    qw.q = isLight ? const Color(0xFFFFFFFF) : const Color(0xFF000000);
+    qb.q = isLight ? const Color(0xFF000000) : const Color(0xFFFFFFFF);
+
+    this.isPortrait.q = isPortrait;
+  }
+
+  BuildContext? get context;
+
+  @override
+  void didChangeMetrics() {
+    super.didChangeMetrics();
+    _contextGot(context);
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    super.didChangePlatformBrightness();
+    _contextGot(context);
   }
 }

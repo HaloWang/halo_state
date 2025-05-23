@@ -1,22 +1,38 @@
+import 'package:example/state/p.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:halo/halo.dart';
 import 'package:halo_state/halo_state.dart';
 
 void main() async {
-  runApp(const MainApp());
+  await P.init();
+  runApp(const _App());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class _App extends StatelessWidget {
+  const _App();
 
   @override
   Widget build(BuildContext context) {
+    P.app.firstContextGot(context);
     return StateWrapper(
       child: MaterialApp(
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
         home: const _Scaffold(),
+        builder: (context, child) {
+          _context = context;
+          return child!;
+        },
       ),
     );
   }
+}
+
+BuildContext? _context;
+
+BuildContext? getContext() {
+  return _context;
 }
 
 final v2 = qsf<String, int?>(null);
@@ -39,26 +55,169 @@ class _Scaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final v = ref.watch(_Scaffold.v);
-    final textScaler = MediaQuery.textScalerOf(context);
+    final version = ref.watch(P.app.version);
+    final buildNumber = ref.watch(P.app.buildNumber);
+    final isPortrait = ref.watch(P.app.isPortrait);
+    final screenHeight = ref.watch(P.app.screenHeight);
+    final screenWidth = ref.watch(P.app.screenWidth);
+    final paddingBottom = ref.watch(P.app.paddingBottom);
+    final paddingLeft = ref.watch(P.app.paddingLeft);
+    final paddingRight = ref.watch(P.app.paddingRight);
+    final paddingTop = ref.watch(P.app.paddingTop);
+    final viewInsetBottomIsZero = ref.watch(P.app.viewInsetBottomIsZero);
+    final viewInsetsBottom = ref.watch(P.app.viewInsetsBottom);
+    final viewInsetsLeft = ref.watch(P.app.viewInsetsLeft);
+    final viewInsetsRight = ref.watch(P.app.viewInsetsRight);
+    final viewInsetsTop = ref.watch(P.app.viewInsetsTop);
+    final viewPaddingBottom = ref.watch(P.app.viewPaddingBottom);
+    final viewPaddingLeft = ref.watch(P.app.viewPaddingLeft);
+    final viewPaddingRight = ref.watch(P.app.viewPaddingRight);
+    final viewPaddingTop = ref.watch(P.app.viewPaddingTop);
+    final quantized33PaddingBottom = ref.watch(P.app.quantized33PaddingBottom);
+    final quantizedHalfPaddingBottom = ref.watch(P.app.quantizedHalfPaddingBottom);
+    final quantizedQuarterPaddingBottom = ref.watch(P.app.quantizedQuarterPaddingBottom);
+    final quantizedIntPaddingBottom = ref.watch(P.app.quantizedIntPaddingBottom);
+    final light = ref.watch(P.app.light);
+    final dark = ref.watch(P.app.dark);
+    final qw = ref.watch(P.app.qw);
+    final qb = ref.watch(P.app.qb);
+
+    final children = <Widget>[
+      T("version".codeToName),
+      T(version.toString()),
+      T("buildNumber".codeToName),
+      T(buildNumber.toString()),
+      T("isPortrait".codeToName),
+      T(isPortrait.toString()),
+      T("screenHeight".codeToName),
+      T(screenHeight.toString()),
+      T("screenWidth".codeToName),
+      T(screenWidth.toString()),
+      T("paddingBottom".codeToName),
+      T(paddingBottom.toString()),
+      T("paddingLeft".codeToName),
+      T(paddingLeft.toString()),
+      T("paddingRight".codeToName),
+      T(paddingRight.toString()),
+      T("paddingTop".codeToName),
+      T(paddingTop.toString()),
+      T("viewInsetBottomIsZero".codeToName),
+      T(viewInsetBottomIsZero.toString()),
+      T("viewInsetsBottom".codeToName),
+      T(viewInsetsBottom.toString()),
+      T("viewInsetsLeft".codeToName),
+      T(viewInsetsLeft.toString()),
+      T("viewInsetsRight".codeToName),
+      T(viewInsetsRight.toString()),
+      T("viewInsetsTop".codeToName),
+      T(viewInsetsTop.toString()),
+      T("viewPaddingBottom".codeToName),
+      T(viewPaddingBottom.toString()),
+      T("viewPaddingLeft".codeToName),
+      T(viewPaddingLeft.toString()),
+      T("viewPaddingRight".codeToName),
+      T(viewPaddingRight.toString()),
+      T("viewPaddingTop".codeToName),
+      T(viewPaddingTop.toString()),
+      T("quantized33PaddingBottom".codeToName),
+      T(quantized33PaddingBottom.toString()),
+      T("quantizedHalfPaddingBottom".codeToName),
+      T(quantizedHalfPaddingBottom.toString()),
+      T("quantizedQuarterPaddingBottom".codeToName),
+      T(quantizedQuarterPaddingBottom.toString()),
+      T("quantizedIntPaddingBottom".codeToName),
+      T(quantizedIntPaddingBottom.toString()),
+      T("light".codeToName),
+      T(light.toString()),
+      T("dark".codeToName),
+      T(dark.toString()),
+      T("qw".codeToName),
+      C(
+        decoration: BoxDecoration(
+          color: qw,
+          border: Border.all(color: kG.q(.5), width: 0.5),
+        ),
+        height: 12,
+        width: 16,
+      ),
+      T("qb".codeToName),
+      C(
+        decoration: BoxDecoration(
+          color: qb,
+          border: Border.all(color: kG.q(.5), width: 0.5),
+        ),
+        height: 12,
+        width: 16,
+      ),
+      T("TextField".codeToName),
+      Exp(
+        child: SB(
+          height: 64,
+          child: TextField(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ),
+      ),
+    ];
+
+    late final Color bgColor;
+    if (light) {
+      bgColor = const Color(0xFFEEEEEE);
+    } else {
+      bgColor = kB;
+    }
+
+    late final Color contentColor;
+    if (light) {
+      contentColor = kW;
+    } else {
+      contentColor = qb.q(0.1);
+    }
+
     return Scaffold(
+      appBar: AppBar(
+        title: T("Halo State"),
+        backgroundColor: bgColor,
+      ),
+      backgroundColor: bgColor,
       floatingActionButton: FloatingActionButton(
         onPressed: _onPressed,
         child: Icon(Icons.add),
       ),
-      body: GestureDetector(
-        onTap: _onTap,
-        child: Container(
-          color: Colors.transparent,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(child: Text('Hello World! $v')),
-              TextField(focusNode: _focusNode),
-              Text(textScaler.toString()),
-            ],
-          ),
-        ),
+      body: ListView.builder(
+        padding: EI.o(b: paddingBottom + 100),
+        itemCount: children.length ~/ 2,
+        itemBuilder: (context, index) {
+          return C(
+            decoration: BD(
+              color: contentColor,
+              border: Border(
+                bottom: BorderSide(
+                  color: qb.q(0.1),
+                  width: 0.5,
+                ),
+              ),
+            ),
+            margin: EI.o(
+              l: paddingLeft + 4,
+              r: paddingRight + 4,
+            ),
+            padding: EI.o(
+              l: 6,
+              r: 6,
+              t: 4,
+              b: 4,
+            ),
+            child: Ro(
+              children: [
+                Exp(child: children[index * 2]),
+                children[index * 2 + 1],
+              ],
+            ),
+          );
+        },
       ),
     );
   }
