@@ -14,8 +14,23 @@ abstract class RawApp with WidgetsBindingObserver {
   final screenHeight = qs(0.0);
   final screenWidth = qs(0.0);
 
-  final light = qs(true);
-  late final dark = qp((ref) => !ref.watch(light));
+  late final dark = qp((ref) {
+    return !ref.watch(light);
+  });
+
+  late final systemBrightness = qp((ref) {
+    return ref.watch(_systemBrightness);
+  });
+
+  late final light = qp((ref) {
+    final preferredThemeMode = ref.watch(this.preferredThemeMode);
+    if (preferredThemeMode == ThemeMode.light) return true;
+    if (preferredThemeMode == ThemeMode.dark) return false;
+    return ref.watch(_systemBrightness) == Brightness.light;
+  });
+
+  final preferredThemeMode = qs(ThemeMode.system);
+  final _systemBrightness = qs(Brightness.light);
 
   final paddingBottom = qs(0.0);
   final paddingLeft = qs(0.0);
@@ -73,6 +88,18 @@ abstract class RawApp with WidgetsBindingObserver {
       });
     }
 
+    light.lv(_onLightChanged);
+
+    await _syncAllDir();
+  }
+
+  void _onLightChanged() {
+    final isLight = light.q;
+    qw.q = isLight ? const Color(0xFFFFFFFF) : const Color(0xFF000000);
+    qb.q = isLight ? const Color(0xFF000000) : const Color(0xFFFFFFFF);
+  }
+
+  Future<void> _syncAllDir() async {
     try {
       cacheDir.q = await getApplicationCacheDirectory();
     } catch (e) {
@@ -175,11 +202,9 @@ abstract class RawApp with WidgetsBindingObserver {
     this.viewInsetsRight.q = viewInsetsRight;
 
     final brightness = View.of(context).platformDispatcher.platformBrightness;
-    final isLight = brightness == Brightness.light;
-    light.q = isLight;
+    _systemBrightness.q = brightness;
 
-    qw.q = isLight ? const Color(0xFFFFFFFF) : const Color(0xFF000000);
-    qb.q = isLight ? const Color(0xFF000000) : const Color(0xFFFFFFFF);
+    _onLightChanged();
 
     this.isPortrait.q = isPortrait;
   }
