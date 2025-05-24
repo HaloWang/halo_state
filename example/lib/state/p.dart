@@ -3,9 +3,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:collection/collection.dart';
-import 'package:example/main.dart';
 import 'package:example/route/router.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:halo_state/halo_state.dart';
 import 'package:halo/halo.dart';

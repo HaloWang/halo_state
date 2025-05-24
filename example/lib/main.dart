@@ -1,9 +1,7 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:example/state/p.dart';
 import 'package:example/route/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:halo/halo.dart';
 import 'package:halo_state/halo_state.dart';
 
 void main() async {
