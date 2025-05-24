@@ -1,3 +1,9 @@
+## 0.2.0
+
+- Refactor RawApp to enhance theme management and brightness detection.
+- Introduced a new systemBrightness property and updated light property logic to respond to preferredThemeMode and system brightness changes.
+- Added `_onLightChanged` method for dynamic UI updates based on theme changes.
+
 ## 0.1.0
 
 ## 0.0.8
