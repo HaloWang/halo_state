@@ -29,6 +29,11 @@ abstract class RawApp with WidgetsBindingObserver {
     return ref.watch(_systemBrightness) == Brightness.light;
   });
 
+  late final lifecycleState = qp((ref) {
+    return ref.watch(_lifecycleState);
+  });
+  final _lifecycleState = qs(AppLifecycleState.resumed);
+
   final preferredThemeMode = qs(ThemeMode.system);
   final _systemBrightness = qs(Brightness.light);
 
@@ -221,5 +226,11 @@ abstract class RawApp with WidgetsBindingObserver {
   void didChangePlatformBrightness() {
     super.didChangePlatformBrightness();
     _contextGot(context);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    _lifecycleState.q = state;
   }
 }

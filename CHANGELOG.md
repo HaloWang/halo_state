@@ -1,3 +1,7 @@
+## 0.3.0
+
+- Enhance the `RawApp` class's lifecycle state management by adding handling for application lifecycle state changes.
+
 ## 0.2.0
 
 - Refactor RawApp to enhance theme management and brightness detection.
