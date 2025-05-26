@@ -11,29 +11,42 @@ abstract class RawApp with WidgetsBindingObserver {
   final buildNumber = qs("");
 
   final isPortrait = qs(true);
+
   final screenHeight = qs(0.0);
   final screenWidth = qs(0.0);
 
-  late final dark = qp((ref) {
-    return !ref.watch(light);
-  });
-
+  /// 当前操作系统的主题模式
   late final systemBrightness = qp((ref) {
     return ref.watch(_systemBrightness);
   });
 
+  /// App 当前是否是 light mode, 而非 dark mode
   late final light = qp((ref) {
     final preferredThemeMode = ref.watch(this.preferredThemeMode);
     if (preferredThemeMode == ThemeMode.light) return true;
     if (preferredThemeMode == ThemeMode.dark) return false;
-    return ref.watch(_systemBrightness) == Brightness.light;
+    return ref.watch(systemBrightness) == Brightness.light;
   });
+
+  /// App 当前是否是 dark mode, 而非 light mode
+  late final dark = qp((ref) {
+    return !ref.watch(light);
+  });
+
+  /// 如果 [RawApp.light] 为 true, 该值为 0xFFFFFFFF, 否则为 0xFF000000
+  final qw = qs(const Color(0xFFFFFFFF));
+
+  /// 如果 [RawApp.light] 为 false, 该值为 0xFF000000, 否则为 0xFFFFFFFF
+  final qb = qs(const Color(0xFF000000));
 
   late final lifecycleState = qp((ref) {
     return ref.watch(_lifecycleState);
   });
   final _lifecycleState = qs(AppLifecycleState.resumed);
 
+  /// App 所偏好的主题模式, 默认为 system, 即跟随系统, 是一个内存状态
+  ///
+  /// 如果不手动设置, 则默认跟随系统主题模式
   final preferredThemeMode = qs(ThemeMode.system);
   final _systemBrightness = qs(Brightness.light);
 
@@ -69,12 +82,6 @@ abstract class RawApp with WidgetsBindingObserver {
   late final libraryDir = qsn<Directory>();
   late final supportDir = qsn<Directory>();
   late final tempDir = qsn<Directory>();
-
-  /// 如果当前操作系统为深色模式, 该值为 0xFF000000, 否则为 0xFFFFFFFF
-  final qw = qs(const Color(0xFFFFFFFF));
-
-  /// 如果当前操作系统为浅色模式, 该值为 0xFF000000, 否则为 0xFFFFFFFF
-  final qb = qs(const Color(0xFF000000));
 
   Future<void> init() async {
     WidgetsBinding.instance.addObserver(this);
