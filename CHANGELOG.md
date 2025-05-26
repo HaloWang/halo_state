@@ -1,3 +1,7 @@
+## 0.3.1
+
+- Documentation
+
 ## 0.3.0
 
 - Enhance the `RawApp` class's lifecycle state management by adding handling for application lifecycle state changes.
