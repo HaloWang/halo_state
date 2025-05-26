@@ -36,7 +36,7 @@ abstract class RawApp with WidgetsBindingObserver {
   /// 如果 [RawApp.light] 为 true, 该值为 0xFFFFFFFF, 否则为 0xFF000000
   final qw = qs(const Color(0xFFFFFFFF));
 
-  /// 如果 [RawApp.light] 为 false, 该值为 0xFF000000, 否则为 0xFFFFFFFF
+  /// 如果 [RawApp.light] 为 true, 该值为 0xFF000000, 否则为 0xFFFFFFFF
   final qb = qs(const Color(0xFF000000));
 
   late final lifecycleState = qp((ref) {
