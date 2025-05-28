@@ -31,6 +31,7 @@ extension HaloStateProviderList<T> on StateProvider<List<T>> {
     return q.contains(value);
   }
 
+  @Deprecated('Use state.q = [] instead')
   void uc() {
     u([]);
   }

@@ -76,12 +76,12 @@ abstract class RawApp with WidgetsBindingObserver {
   /// Quantized with step 1.0 (0, 1, 2, 3, ...)
   final quantizedIntPaddingBottom = qs(0.0);
 
-  late final cacheDir = qsn<Directory>();
-  late final documentsDir = qsn<Directory>();
-  late final downloadsDir = qsn<Directory>();
-  late final libraryDir = qsn<Directory>();
-  late final supportDir = qsn<Directory>();
-  late final tempDir = qsn<Directory>();
+  late final cacheDir = qs<Directory?>(null);
+  late final documentsDir = qs<Directory?>(null);
+  late final downloadsDir = qs<Directory?>(null);
+  late final libraryDir = qs<Directory?>(null);
+  late final supportDir = qs<Directory?>(null);
+  late final tempDir = qs<Directory?>(null);
 
   Future<void> init() async {
     WidgetsBinding.instance.addObserver(this);

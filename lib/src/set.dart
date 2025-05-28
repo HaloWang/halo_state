@@ -22,6 +22,7 @@ extension HaloStateProviderSet<T> on StateProvider<Set<T>> {
     return q.contains(value);
   }
 
+  @Deprecated('Use state.q = {} instead')
   void uc() {
     u({});
   }

@@ -21,6 +21,7 @@ extension HaloStateProviderMap<K, V> on StateProvider<Map<K, V>> {
     return q[key];
   }
 
+  @Deprecated('Use state.q = {} instead')
   void uc() {
     u({});
   }

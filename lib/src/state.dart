@@ -8,6 +8,7 @@ StateProvider<V> qs<V>(V v) => StateProvider<V>((_) => v);
 Provider<V> qp<V>(V Function(Ref<V> ref) createFn) => Provider<V>(createFn);
 
 /// Generates a nullable [StateProvider], initialized to the provided value (or null).
+@Deprecated('Use qs<V?>(null) instead')
 StateProvider<V?> qsn<V>([V? v]) => qs<V?>(v);
 
 /// Creates a [StateProviderFamily] that always starts with the specified initial value of type S.
