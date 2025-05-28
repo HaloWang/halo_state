@@ -21,8 +21,21 @@ class _StateWrapper extends StatelessWidget {
   }
 }
 
+final v2 = qsf<String, int?>(null);
+final v3 = qsff((_, String key) => 1);
+final v4 = qs<int?>(null);
+final v5 = qs<int?>(1);
+final v6 = qs(2);
+final v7 = qsn<int>();
+final v8 = qs({"foo": "bar"});
+
 class _App extends ConsumerWidget {
   const _App();
+
+  void _test() {
+    v6.q = 5;
+    v6.q += 5;
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -38,6 +51,3 @@ class _App extends ConsumerWidget {
     );
   }
 }
-
-final v2 = qsf<String, int?>(null);
-final v3 = qsff((_, String key) => 1);

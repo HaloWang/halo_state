@@ -1,3 +1,9 @@
+## 0.4.0
+
+- Deprecate various methods.
+- Update StateProvider initializations.
+- Remove unused files.
+
 ## 0.3.2
 
 ## 0.3.1
