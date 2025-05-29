@@ -1,3 +1,8 @@
+## 0.4.1
+
+- Optimize padding and size calculations by introducing a rounding function to improve performance.
+- Refactor related calculations for consistency.
+
 ## 0.4.0
 
 - Deprecate various methods.

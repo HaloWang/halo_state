@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -169,21 +170,21 @@ abstract class RawApp with WidgetsBindingObserver {
     final rawPadding = window.padding;
 
     final size = window.physicalSize / dpi;
-    final height = window.physicalSize.height / dpi;
-    final width = window.physicalSize.width / dpi;
+    final height = _roundToDecimalPlaceOptimized(window.physicalSize.height / dpi, 2);
+    final width = _roundToDecimalPlaceOptimized(window.physicalSize.width / dpi, 2);
     final isPortrait = height > width;
 
-    final paddingTop = rawPadding.top / dpi;
-    final paddingBottom = rawPadding.bottom / dpi;
-    final paddingLeft = rawPadding.left / dpi;
-    final paddingRight = rawPadding.right / dpi;
+    final paddingTop = _roundToDecimalPlaceOptimized(rawPadding.top / dpi, 2);
+    final paddingBottom = _roundToDecimalPlaceOptimized(rawPadding.bottom / dpi, 2);
+    final paddingLeft = _roundToDecimalPlaceOptimized(rawPadding.left / dpi, 2);
+    final paddingRight = _roundToDecimalPlaceOptimized(rawPadding.right / dpi, 2);
 
     this.paddingTop.q = paddingTop;
     this.paddingBottom.q = paddingBottom;
     this.paddingLeft.q = paddingLeft;
     this.paddingRight.q = paddingRight;
 
-    quantized33PaddingBottom.q = (paddingBottom / 0.33).round() * 0.33;
+    quantized33PaddingBottom.q = (paddingBottom / 0.3333).round() * 0.3333;
     quantizedHalfPaddingBottom.q = (paddingBottom / 0.5).round() * 0.5;
     quantizedQuarterPaddingBottom.q = (paddingBottom / 0.25).round() * 0.25;
     quantizedIntPaddingBottom.q = paddingBottom.round().toDouble();
@@ -191,20 +192,20 @@ abstract class RawApp with WidgetsBindingObserver {
     screenWidth.q = size.width;
     screenHeight.q = size.height;
 
-    final viewPaddingTop = rawViewPadding.top / dpi;
-    final viewPaddingBottom = rawViewPadding.bottom / dpi;
-    final viewPaddingLeft = rawViewPadding.left / dpi;
-    final viewPaddingRight = rawViewPadding.right / dpi;
+    final viewPaddingTop = _roundToDecimalPlaceOptimized(rawViewPadding.top / dpi, 2);
+    final viewPaddingBottom = _roundToDecimalPlaceOptimized(rawViewPadding.bottom / dpi, 2);
+    final viewPaddingLeft = _roundToDecimalPlaceOptimized(rawViewPadding.left / dpi, 2);
+    final viewPaddingRight = _roundToDecimalPlaceOptimized(rawViewPadding.right / dpi, 2);
 
     this.viewPaddingTop.q = viewPaddingTop;
     this.viewPaddingBottom.q = viewPaddingBottom;
     this.viewPaddingLeft.q = viewPaddingLeft;
     this.viewPaddingRight.q = viewPaddingRight;
 
-    final viewInsetsTop = rawViewInsets.top / dpi;
-    final viewInsetsBottom = rawViewInsets.bottom / dpi;
-    final viewInsetsLeft = rawViewInsets.left / dpi;
-    final viewInsetsRight = rawViewInsets.right / dpi;
+    final viewInsetsTop = _roundToDecimalPlaceOptimized(rawViewInsets.top / dpi, 2);
+    final viewInsetsBottom = _roundToDecimalPlaceOptimized(rawViewInsets.bottom / dpi, 2);
+    final viewInsetsLeft = _roundToDecimalPlaceOptimized(rawViewInsets.left / dpi, 2);
+    final viewInsetsRight = _roundToDecimalPlaceOptimized(rawViewInsets.right / dpi, 2);
 
     viewInsetBottomIsZero.q = viewInsetsBottom == 0;
 
@@ -240,4 +241,16 @@ abstract class RawApp with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
     _lifecycleState.q = state;
   }
+}
+
+/// 📈 性能优化的四舍五入函数
+/// 将 [value] 四舍五入到指定的小数位数 [decimalPlaces]。
+/// 推荐用于追求高性能的场景，因为它避免了字符串转换的开销。
+double _roundToDecimalPlaceOptimized(double value, int decimalPlaces) {
+  // 计算乘数因子，例如保留1位小数则为 10^1 = 10
+  // pow 函数的性能开销在编译时通常会被优化，或者非常小
+  double factor = pow(10, decimalPlaces).toDouble();
+  // 先放大，再四舍五入到最近的整数，最后缩小
+  // 这是纯数学运算，避免了字符串处理的性能开销
+  return (value * factor).round() / factor;
 }
