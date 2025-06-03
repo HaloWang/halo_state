@@ -1,6 +1,6 @@
 name: halo_state
 description: Personal flutter state management package
-version: 0.4.1
+version: 1.0.0
 homepage: https://github.com/haloWang/halo_state
 
 environment:

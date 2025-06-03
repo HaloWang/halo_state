@@ -1,3 +1,7 @@
+## 1.0.0
+
+- Deprecate methods in list, map, set, state, and string extensions; update to use state.q for state management.
+
 ## 0.4.1
 
 - Optimize padding and size calculations by introducing a rounding function to improve performance.

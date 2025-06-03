@@ -128,15 +128,15 @@ class PageHome extends ConsumerWidget {
       T("quantizedIntPaddingBottom".codeToName),
       T(quantizedIntPaddingBottom.toString()),
       T("TextField".codeToName),
-      Exp(
+      Expanded(
         flex: 3,
-        child: Ro(
+        child: Row(
           children: [
             TextButton(
               onPressed: _onTap,
               child: T("Hide Keyboard"),
             ),
-            Exp(
+            Expanded(
               child: SB(
                 height: 48,
                 child: TextField(
@@ -202,9 +202,9 @@ class PageHome extends ConsumerWidget {
               t: 4,
               b: 4,
             ),
-            child: Ro(
+            child: Row(
               children: [
-                Exp(child: children[index * 2]),
+                Expanded(child: children[index * 2]),
                 children[index * 2 + 1],
               ],
             ),
