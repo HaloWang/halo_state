@@ -61,15 +61,16 @@ extension HaloStateProvider<V> on StateProvider<V> {
   }
 
   /// Updates the state to [value].
-  @Deprecated('Use q instead')
+  @Deprecated('Use state.q = value instead')
   void u(V value) {
-    rc.read(notifier).state = value;
+    q = value;
   }
 }
 
 extension HaloStateProviderNull<V> on StateProvider<V?> {
   /// Clears the current state by setting it to null.
+  @Deprecated('Use state.q = null instead')
   void uc() {
-    u(null);
+    q = null;
   }
 }
