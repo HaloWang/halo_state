@@ -10,7 +10,7 @@ extension $App on _App {}
 
 /// Private methods
 extension _$App on _App {
-  FV _init() async {
+  Future<void> _init() async {
     qq;
     await init();
     light.lv(_onLightChanged, fireImmediately: true);

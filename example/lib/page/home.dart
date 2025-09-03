@@ -66,7 +66,7 @@ class PageHome extends ConsumerWidget {
       T("dark".codeToName),
       T(dark.toString()),
       T("qw".codeToName),
-      C(
+      Container(
         decoration: BoxDecoration(
           color: qw,
           border: Border.all(color: kG.q(.5), width: 0.5),
@@ -75,7 +75,7 @@ class PageHome extends ConsumerWidget {
         width: 16,
       ),
       T("qb".codeToName),
-      C(
+      Container(
         decoration: BoxDecoration(
           color: qb,
           border: Border.all(color: kG.q(.5), width: 0.5),
@@ -137,7 +137,7 @@ class PageHome extends ConsumerWidget {
               child: T("Hide Keyboard"),
             ),
             Expanded(
-              child: SB(
+              child: SizedBox(
                 height: 48,
                 child: TextField(
                   focusNode: _focusNode,
@@ -182,8 +182,8 @@ class PageHome extends ConsumerWidget {
         padding: EI.o(b: paddingBottom + 100),
         itemCount: children.length ~/ 2,
         itemBuilder: (context, index) {
-          return C(
-            decoration: BD(
+          return Container(
+            decoration: BoxDecoration(
               color: contentColor,
               border: Border(
                 bottom: BorderSide(

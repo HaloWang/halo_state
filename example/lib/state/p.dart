@@ -16,13 +16,13 @@ abstract class P {
   static final app = _App();
   static final preference = _Preference();
 
-  static FV init() async {
+  static Future<void> init() async {
     WidgetsFlutterBinding.ensureInitialized();
     await app._init();
     await _unorderedInit();
   }
 
-  static FV _unorderedInit() async {
+  static Future<void> _unorderedInit() async {
     await Future.wait([
       preference._init(),
     ]);

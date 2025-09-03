@@ -6,7 +6,7 @@ class _Preference {
 
 /// Private methods
 extension _$Preference on _Preference {
-  FV _init() async {
+  Future<void> _init() async {
     qq;
 
     final sp = await SharedPreferences.getInstance();
